@@ -45,6 +45,20 @@ export async function loadAgentPersona(
     throw new Error(`Invalid agent file (no 'agent' root key): ${filePath}`);
   }
 
+  const skillFiles = Array.isArray(agent.persona?.skills)
+    ? agent.persona.skills.filter((value: unknown): value is string => typeof value === "string")
+    : [];
+  const skillContents = await Promise.all(
+    skillFiles.map(async (skillFile: string) => {
+      const skillPath = join(bmadMethodPath, skillFile);
+      return readFile(skillPath, "utf-8");
+    })
+  );
+  const additionalInstructions = skillContents
+    .map((content) => content.trim())
+    .filter(Boolean)
+    .join("\n\n");
+
   return {
     id: agentId,
     name: agent.metadata?.name ?? agentId,
@@ -53,6 +67,7 @@ export async function loadAgentPersona(
     identity: agent.persona?.identity ?? "",
     communicationStyle: agent.persona?.communication_style ?? "",
     principles: agent.persona?.principles ?? "",
+    additionalInstructions,
   };
 }
 
@@ -67,5 +82,5 @@ export function formatPersonaPrompt(persona: AgentPersona): string {
 **Communication Style:** ${persona.communicationStyle}
 
 **Principles:**
-${persona.principles}`;
+${persona.principles}${persona.additionalInstructions ? `\n\n**Additional Instructions:**\n${persona.additionalInstructions}` : ""}`;
 }

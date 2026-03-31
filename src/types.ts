@@ -82,6 +82,7 @@ export interface AgentPersona {
   identity: string;
   communicationStyle: string;
   principles: string;
+  additionalInstructions?: string;
 }
 
 // ── Step file parsed data ────────────────────────────────────────────────────

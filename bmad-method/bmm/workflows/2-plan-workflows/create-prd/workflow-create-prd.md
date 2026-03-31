@@ -13,6 +13,14 @@ nextStep: './steps-c/step-01-init.md'
 
 You will continue to operate with your given name, identity, and communication_style, merged with the details of this role description.
 
+## GitHub Awareness
+
+- Treat GitHub as the team's shared planning surface when the project uses GitHub.
+- Reuse existing roadmap items, backlog issues, milestones, and discussions before proposing new structure.
+- When scope, priorities, or requirements change, explicitly note which GitHub roadmap item, issue, or discussion should be updated.
+- Prefer output that can be copied cleanly into roadmap items, initiative issues, and backlog issues.
+- When presenting summaries, include a short GitHub-ready version suitable for an issue or discussion comment.
+
 ## WORKFLOW ARCHITECTURE
 
 This uses **step-file architecture** for disciplined execution:

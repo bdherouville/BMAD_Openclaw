@@ -16,6 +16,8 @@
   <critical>❓ SAVE QUESTIONS: If you think of questions or clarifications during analysis, save them for the end after the complete story is
     written</critical>
   <critical>🎯 ZERO USER INTERVENTION: Process should be fully automated except for initial epic/story selection or missing documents</critical>
+  <critical>If the project uses GitHub, prepare the story so it maps cleanly to a GitHub issue without major rewriting</critical>
+  <critical>Reuse existing backlog issues, issue titles, linked discussions, and acceptance criteria when that context is available</critical>
 
   <step n="1" goal="Determine target story">
     <check if="{{story_path}} is provided by user or user provided the epic and story number such as 2-4 or 1.6 or epic 1 story 5">
@@ -182,6 +184,8 @@
       name="discover_inputs" />
     <note>Available content: {epics_content}, {prd_content}, {architecture_content}, {ux_content},
     {project_context}</note>
+    <action>If the project uses GitHub, inspect available issue references, backlog identifiers, discussions, and PR links mentioned in the loaded artifacts</action>
+    <action>Carry those GitHub references forward into the generated story so downstream agents can coordinate against the same work item</action>
 
     <!-- Analyze epics file for story foundation -->
     <action>From {epics_content}, extract Epic {{epic_num}} complete context:</action> **EPIC ANALYSIS:** - Epic
@@ -233,6 +237,7 @@
     processes - **Integration Patterns:** External service integrations, data flows <action>Extract any story-specific requirements that the
     developer MUST follow</action>
     <action>Identify any architectural decisions that override previous patterns</action>
+    <action>If a decision should remain visible to implementers and reviewers, note the GitHub discussion or issue comment that should capture it</action>
   </step>
 
   <step n="4" goal="Web research for latest technical specifics">

@@ -11,6 +11,8 @@
     other instruction.</critical>
   <critical>Do NOT schedule a "next session" or request review pauses unless a HALT condition applies. Only Step 6 decides completion.</critical>
   <critical>User skill level ({user_skill_level}) affects conversation style ONLY, not code updates.</critical>
+  <critical>If the project uses GitHub, treat the story or linked issue as the canonical delivery target and keep progress language aligned with issue scope and acceptance criteria</critical>
+  <critical>When implementation discovers scope drift, blockers, or decision gaps, call out the exact GitHub issue, discussion, or PR follow-up that should be created or updated</critical>
 
   <step n="1" goal="Find next ready story and load it" tag="sprint-status">
     <check if="{{story_path}} is provided">
@@ -124,6 +126,7 @@
     <action>Load comprehensive context from story file's Dev Notes section</action>
     <action>Extract developer guidance from Dev Notes: architecture requirements, previous learnings, technical specifications</action>
     <action>Use enhanced story context to inform implementation decisions and approaches</action>
+    <action>If GitHub references exist in the story or project docs, retain them in working notes so status updates and review summaries point to the same work item</action>
 
     <action>Identify first incomplete task (unchecked [ ]) in Tasks/Subtasks</action>
 
@@ -142,6 +145,7 @@
     <action>Load comprehensive context from story file's Dev Notes section</action>
     <action>Extract developer guidance from Dev Notes: architecture requirements, previous learnings, technical specifications</action>
     <action>Use enhanced story context to inform implementation decisions and approaches</action>
+    <action>If GitHub references exist in the story or project docs, retain them in working notes so status updates and review summaries point to the same work item</action>
     <output>✅ **Context Loaded**
       Story and project context available for implementation
     </output>
@@ -241,6 +245,7 @@
     <action>Ensure code follows architecture patterns and coding standards from Dev Notes</action>
 
     <action>Document technical approach and decisions in Dev Agent Record → Implementation Plan</action>
+    <action>Maintain concise GitHub-ready progress notes in the Dev Agent Record so the work can be summarized back to the linked issue or PR without rewriting the full story</action>
 
     <action if="new dependencies required beyond story specifications">HALT: "Additional dependencies need user approval"</action>
     <action if="3 consecutive implementation failures occur">HALT and request guidance</action>

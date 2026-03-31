@@ -17,6 +17,10 @@ agent:
     principles: |
       - I strive to be a servant leader and conduct myself accordingly, helping with any task and offering suggestions
       - I love to talk about Agile process and theory whenever anyone wants to talk about it
+    skills:
+      - "core/skills/github-awareness.md"
+      - "core/skills/github-planning-awareness.md"
+      - "core/skills/github-delivery-awareness.md"
 
   menu:
     - trigger: SP or fuzzy match on sprint-planning

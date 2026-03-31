@@ -7,6 +7,13 @@
 
 **Strategy**: Sprint planning needs ALL epics and stories to build complete status tracking.
 
+## GitHub Awareness
+
+- If the project uses GitHub, treat this sprint status as the local mirror of the GitHub backlog and roadmap state, not a competing tracker.
+- Preserve story ordering and naming so they can be matched to GitHub issues and project items.
+- When reporting results, mention which items are backlog candidates, active sprint candidates, blocked items, or review-ready items for GitHub Projects.
+- If there is a mismatch between local sprint status and known GitHub issue state, flag it explicitly instead of silently choosing one side.
+
 **Epic Discovery Process:**
 
 1. **Search for whole document first** - Look for `epics.md`, `bmm-epics.md`, or any `*epic*.md` file
@@ -177,6 +184,7 @@ development_status:
 2. Use this file to track development progress
 3. Agents will update statuses as they work
 4. Re-run this workflow to refresh auto-detected statuses
+5. If GitHub is the coordination surface, sync backlog, in-progress, review, and done items with the matching project items or issues
 
 </step>
 

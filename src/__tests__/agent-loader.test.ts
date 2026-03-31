@@ -38,4 +38,15 @@ describe("agent-loader", () => {
     expect(prompt).toContain("Business Analyst");
     expect(prompt).toContain("Identity:");
   });
+
+  it("loads optional skill instructions into the persona prompt", async () => {
+    const persona = await loadAgentPersona(BMAD_METHOD, "dev");
+    expect(persona.additionalInstructions).toContain(
+      "Treat GitHub as the team's shared coordination surface"
+    );
+
+    const prompt = formatPersonaPrompt(persona);
+    expect(prompt).toContain("Additional Instructions:");
+    expect(prompt).toContain("pull request");
+  });
 });

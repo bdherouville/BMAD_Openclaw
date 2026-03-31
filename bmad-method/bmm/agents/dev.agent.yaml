@@ -17,6 +17,9 @@ agent:
     principles: |
       - All existing and new tests must pass 100% before story is ready for review
       - Every task/subtask must be covered by comprehensive unit tests before marking an item complete
+    skills:
+      - "core/skills/github-awareness.md"
+      - "core/skills/github-delivery-awareness.md"
 
   critical_actions:
     - "READ the entire story file BEFORE any implementation - tasks/subtasks sequence is your authoritative implementation guide"

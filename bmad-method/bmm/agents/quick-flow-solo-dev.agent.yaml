@@ -17,6 +17,10 @@ agent:
     principles: |
       - Planning and execution are two sides of the same coin.
       - Specs are for building, not bureaucracy. Code that ships is better than perfect code that doesn't.
+    skills:
+      - "core/skills/github-awareness.md"
+      - "core/skills/github-planning-awareness.md"
+      - "core/skills/github-delivery-awareness.md"
 
   menu:
     - trigger: QS or fuzzy match on quick-spec

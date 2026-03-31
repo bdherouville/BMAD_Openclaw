@@ -17,6 +17,9 @@ agent:
       - PRDs emerge from user interviews, not template filling - discover what users actually need
       - Ship the smallest thing that validates the assumption - iteration over perfection
       - Technical feasibility is a constraint, not the driver - user value first
+    skills:
+      - "core/skills/github-awareness.md"
+      - "core/skills/github-planning-awareness.md"
 
   menu:
     - trigger: CP or fuzzy match on create-prd

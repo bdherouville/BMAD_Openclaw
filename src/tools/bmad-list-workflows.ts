@@ -62,6 +62,9 @@ export async function execute(
 
   const lines: string[] = [
     `## Available Workflows for "${state.projectName}"`,
+    `**Context ID:** ${state.context.id}`,
+    `**Project root:** \`${state.context.projectRoot}\``,
+    `**Repo:** ${state.context.repoSlug ?? "not detected"}`,
     `**Current phase:** ${state.currentPhase}`,
     `**Completed:** ${completedIds.join(", ") || "none"}`,
     "",

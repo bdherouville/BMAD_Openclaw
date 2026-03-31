@@ -3,8 +3,9 @@
  */
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
-import { join } from "node:path";
-import type { BmadState } from "../types.ts";
+import { join, resolve } from "node:path";
+import { createHash } from "node:crypto";
+import type { BmadState, ProjectContext } from "../types.ts";
 
 const BMAD_DIR = "_bmad";
 const STATE_FILE = "state.json";
@@ -24,6 +25,16 @@ export async function readState(projectPath: string): Promise<BmadState | null> 
     if (!parsed || typeof parsed !== "object" || !parsed.projectName) {
       return null;
     }
+    if (!parsed.context || typeof parsed.context !== "object") {
+      const projectRoot = resolve(projectPath);
+      parsed.context = {
+        id: createHash("sha1")
+          .update([projectRoot, "", ""].join("|"))
+          .digest("hex")
+          .slice(0, 12),
+        projectRoot,
+      };
+    }
     // Sanitize: ensure completedWorkflows is always a valid array
     if (!Array.isArray(parsed.completedWorkflows)) {
       parsed.completedWorkflows = [];
@@ -33,6 +44,13 @@ export async function readState(projectPath: string): Promise<BmadState | null> 
         (w: unknown) => w != null && typeof w === "object"
       );
     }
+    if (parsed.activeWorkflow && !parsed.activeWorkflow.contextId) {
+      parsed.activeWorkflow.contextId = parsed.context.id;
+    }
+    parsed.completedWorkflows = parsed.completedWorkflows.map((w: any) => ({
+      contextId: parsed.context.id,
+      ...w,
+    }));
     return parsed as BmadState;
   } catch {
     return null;
@@ -50,12 +68,14 @@ export async function writeState(
 
 export function createInitialState(
   projectPath: string,
-  projectName: string
+  projectName: string,
+  context: ProjectContext
 ): BmadState {
   return {
     projectName,
     projectPath,
     createdAt: new Date().toISOString(),
+    context,
     currentPhase: "analysis",
     activeWorkflow: null,
     completedWorkflows: [],

@@ -9,12 +9,18 @@ import {
   bmadDir,
   statePath,
 } from "../lib/state.ts";
+import type { ProjectContext } from "../types.ts";
 
 describe("state", () => {
   let tempDir: string;
+  let context: ProjectContext;
 
   beforeEach(async () => {
     tempDir = await mkdtemp(join(tmpdir(), "bmad-test-"));
+    context = {
+      id: "ctx-test-1234",
+      projectRoot: tempDir,
+    };
   });
 
   afterEach(async () => {
@@ -27,16 +33,17 @@ describe("state", () => {
   });
 
   it("createInitialState creates valid state", () => {
-    const state = createInitialState(tempDir, "Test Project");
+    const state = createInitialState(tempDir, "Test Project", context);
     expect(state.projectName).toBe("Test Project");
     expect(state.projectPath).toBe(tempDir);
+    expect(state.context).toEqual(context);
     expect(state.currentPhase).toBe("analysis");
     expect(state.activeWorkflow).toBeNull();
     expect(state.completedWorkflows).toEqual([]);
   });
 
   it("writeState + readState roundtrip", async () => {
-    const state = createInitialState(tempDir, "Test Project");
+    const state = createInitialState(tempDir, "Test Project", context);
     await writeState(tempDir, state);
     const loaded = await readState(tempDir);
     expect(loaded).toEqual(state);

@@ -9,6 +9,8 @@ export interface BmadState {
   projectPath: string;
   /** ISO timestamp of project init */
   createdAt: string;
+  /** Stable identity for the currently initialized project/repo context */
+  context: ProjectContext;
   /** Current BMad phase: analysis | planning | solutioning | implementation */
   currentPhase: BmadPhase;
   /** Currently active workflow, if any */
@@ -24,6 +26,8 @@ export type BmadPhase =
   | "implementation";
 
 export interface ActiveWorkflow {
+  /** Context identity the workflow belongs to */
+  contextId: string;
   /** Workflow ID, e.g. "create-product-brief" */
   id: string;
   /** Agent persona currently active */
@@ -47,10 +51,24 @@ export interface ActiveWorkflow {
 }
 
 export interface CompletedWorkflow {
+  contextId: string;
   id: string;
   agentId: string;
   outputFile: string;
   completedAt: string;
+}
+
+export interface ProjectContext {
+  /** Stable hash of the project/repo context */
+  id: string;
+  /** Canonical resolved project path */
+  projectRoot: string;
+  /** Git repository root if detected */
+  repoRoot?: string;
+  /** Git origin URL if detected */
+  repoRemoteUrl?: string;
+  /** owner/repo slug if derivable from origin URL */
+  repoSlug?: string;
 }
 
 // ── Workflow Registry ────────────────────────────────────────────────────────

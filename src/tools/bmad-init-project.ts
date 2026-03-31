@@ -7,6 +7,7 @@ import { Type } from "@sinclair/typebox";
 import { mkdir, access, symlink, readFile, writeFile, lstat } from "node:fs/promises";
 import { join } from "node:path";
 import { createInitialState, writeState, readState, bmadDir } from "../lib/state.ts";
+import { detectProjectContext } from "../lib/project-context.ts";
 import type { ToolResult } from "../types.ts";
 
 export const name = "bmad_init_project";
@@ -82,8 +83,10 @@ product_knowledge: "${join(projectPath, "docs")}"
   // Write config to _bmad/ (not inside the symlinked bmm/ — that's read-only)
   await writeFile(join(bmad, "config.yaml"), configContent, "utf-8");
 
+  const projectContext = await detectProjectContext(projectPath);
+
   // Create state
-  const state = createInitialState(projectPath, projectName);
+  const state = createInitialState(projectPath, projectName, projectContext);
   await writeState(projectPath, state);
 
   // Create output directories
@@ -105,6 +108,12 @@ product_knowledge: "${join(projectPath, "docs")}"
       `- \`_bmad-output/planning-artifacts/\` — briefs, PRDs, architecture docs\n` +
       `- \`_bmad-output/implementation-artifacts/\` — sprint status, stories, reviews\n` +
       `- \`docs/\` — project knowledge\n\n` +
+      `**Context:**\n` +
+      `- Context ID: \`${projectContext.id}\`\n` +
+      `- Project root: \`${projectContext.projectRoot}\`\n` +
+      `${projectContext.repoSlug ? `- Repo: \`${projectContext.repoSlug}\`\n` : ""}` +
+      `${projectContext.repoRemoteUrl ? `- Origin: \`${projectContext.repoRemoteUrl}\`\n` : ""}` +
+      `\n` +
       `All \`{project-root}/_bmad/...\` paths in BMad step files will resolve correctly.\n\n` +
       `**Next step:** Run \`bmad_list_workflows\` to see available workflows, or start with "Create Product Brief".`
   );

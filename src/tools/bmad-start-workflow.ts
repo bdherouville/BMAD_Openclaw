@@ -130,6 +130,7 @@ export async function execute(
 
   // Update state
   state.activeWorkflow = {
+    contextId: state.context.id,
     id: workflowId,
     agentId: workflowDef.agentId,
     agentName: persona.name,
@@ -194,9 +195,19 @@ After completing each step:
     `## Workflow Context`,
     "",
     `**Project:** ${state.projectName} at \`${projectPath}\``,
+    `**Context ID:** ${state.context.id}`,
+    `**Repo:** ${state.context.repoSlug ?? "not detected"}`,
+    `**Origin:** ${state.context.repoRemoteUrl ?? "not detected"}`,
     `**Workflow:** ${workflowDef.name} (${workflowId})`,
     `**Mode:** ${mode}`,
     `**Steps:** ${totalSteps ?? "unknown"}`,
+    "",
+    `## Context Boundaries`,
+    "",
+    `- Use only files, artifacts, issues, discussions, and pull requests that belong to projectPath="${projectPath}".`,
+    `- Treat GitHub references as belonging only to repo "${state.context.repoSlug ?? "current project repo"}".`,
+    `- Apply loaded skills only within this context; do not mix assumptions or backlog state from another project.`,
+    `- If the user changes target project or repo, stop and require a fresh workflow start for that new context.`,
     "",
     "---",
     "",

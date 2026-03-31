@@ -30,6 +30,9 @@ You are now executing a BMad workflow. Follow these rules EXACTLY.
 - 🚫 **NEVER** skip steps or optimize the sequence
 - 🎯 **ALWAYS** follow the exact instructions in the step content
 - 📋 **NEVER** create mental todo lists from future steps
+- 🧭 **ALWAYS** stay inside the active project context — project root, repo, issues, discussions, artifacts, and skills apply only to the current context
+- 🔒 **NEVER** reuse files, backlog items, discussions, PRs, or assumptions from another project or repository unless the current context explicitly references them
+- 🛑 **IF** the user switches to a different project or repo mid-workflow, stop and require a new workflow to be started for that context
 `;
 
 export const YOLO_MODE_RULES = `### YOLO Mode Active

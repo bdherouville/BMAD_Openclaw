@@ -103,6 +103,12 @@ export async function execute(
       [
         `## Step ${stepLabel}: ${stepData.name || stepData.description}`,
         "",
+        `**Context ID:** ${state.context.id}`,
+        `**Project Root:** \`${state.context.projectRoot}\``,
+        `**Repo:** ${state.context.repoSlug ?? "not detected"}`,
+        "",
+        `Stay strictly within this project/repo context. Do not use files, GitHub artifacts, or assumptions from another project.`,
+        "",
         resolvedContent,
         "",
         "---",
@@ -197,6 +203,12 @@ export async function execute(
 
   const output = [
     `## Step ${stepLabel}: ${nextStep.name || nextStep.description}`,
+    "",
+    `**Context ID:** ${state.context.id}`,
+    `**Project Root:** \`${state.context.projectRoot}\``,
+    `**Repo:** ${state.context.repoSlug ?? "not detected"}`,
+    "",
+    `Stay strictly within this project/repo context. Do not use files, GitHub artifacts, or assumptions from another project.`,
     "",
     resolvedContent,
     "",

@@ -29,6 +29,10 @@ export async function execute(
   const lines = [
     `## BMad Project: ${state.projectName}`,
     "",
+    `**Context ID:** ${state.context.id}`,
+    `**Project Root:** \`${state.context.projectRoot}\``,
+    `**Repo:** ${state.context.repoSlug ?? "not detected"}`,
+    `**Origin:** ${state.context.repoRemoteUrl ?? "not detected"}`,
     `**Phase:** ${state.currentPhase}`,
     `**Initialized:** ${state.createdAt}`,
     "",
@@ -41,6 +45,7 @@ export async function execute(
       : `${w.currentStep}`;
     lines.push("### Active Workflow");
     lines.push(`- **Workflow:** ${w.id}`);
+    lines.push(`- **Context:** ${w.contextId}`);
     lines.push(`- **Agent:** ${w.agentName} (${w.agentId})`);
     lines.push(`- **Mode:** ${w.mode}`);
     lines.push(`- **Step:** ${stepLabel}`);
@@ -57,7 +62,7 @@ export async function execute(
     lines.push("### Completed Workflows");
     for (const w of state.completedWorkflows) {
       lines.push(
-        `- **${w.id}** — ${w.completedAt} → \`${w.outputFile}\``
+        `- **${w.id}** [${w.contextId}] — ${w.completedAt} → \`${w.outputFile}\``
       );
     }
   } else {

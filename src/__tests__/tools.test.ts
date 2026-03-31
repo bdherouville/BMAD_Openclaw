@@ -8,6 +8,7 @@ import { execute as listWorkflows } from "../tools/bmad-list-workflows.ts";
 import { execute as getState } from "../tools/bmad-get-state.ts";
 import { execute as saveArtifact } from "../tools/bmad-save-artifact.ts";
 import { execute as completeWorkflow } from "../tools/bmad-complete-workflow.ts";
+import { execute as startWorkflow } from "../tools/bmad-start-workflow.ts";
 
 const BMAD_METHOD = join(import.meta.dirname, "../../bmad-method");
 const ctx = { bmadMethodPath: BMAD_METHOD };
@@ -33,6 +34,7 @@ describe("tool: bmad_init_project", () => {
     expect(text).toContain("✅");
     expect(text).toContain("My Project");
     expect(text).toContain("state.json");
+    expect(text).toContain("Context ID:");
   });
 
   it("rejects double initialization", async () => {
@@ -98,8 +100,38 @@ describe("tool: bmad_get_state", () => {
     const result = await getState("t", { projectPath: tempDir });
     const text = result.content[0].text;
     expect(text).toContain("Test");
+    expect(text).toContain("Context ID:");
     expect(text).toContain("analysis");
     expect(text).toContain("None");
+  });
+});
+
+describe("tool: bmad_start_workflow", () => {
+  let tempDir: string;
+
+  beforeEach(async () => {
+    tempDir = await mkdtemp(join(tmpdir(), "bmad-tool-test-"));
+    await initProject("t", { projectPath: tempDir, projectName: "Test" }, ctx);
+  });
+
+  afterEach(async () => {
+    await rm(tempDir, { recursive: true, force: true });
+  });
+
+  it("includes explicit context boundaries in the spawned prompt", async () => {
+    const result = await startWorkflow(
+      "t",
+      {
+        projectPath: tempDir,
+        workflow: "create-product-brief",
+        mode: "normal",
+      },
+      ctx
+    );
+    const text = result.content[0].text;
+    expect(text).toContain("Context ID:");
+    expect(text).toContain("Context Boundaries");
+    expect(text).toContain(`projectPath="${tempDir}"`);
   });
 });
 

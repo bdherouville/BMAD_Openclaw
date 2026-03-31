@@ -52,6 +52,7 @@ export async function execute(
 
   // Move to completed
   state.completedWorkflows.push({
+    contextId: active.contextId,
     id: active.id,
     agentId: active.agentId,
     outputFile: active.outputFile,
